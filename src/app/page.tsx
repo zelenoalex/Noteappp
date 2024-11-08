@@ -7,9 +7,7 @@ import NoteModal from "./NoteModal";
 
 import "flowbite";
 
-export default function Home({
-  setModalOpen,
-}: {
+export default function Home({ setModalOpen }: {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [notes, setNotes] = useState<Note[]>([]);
