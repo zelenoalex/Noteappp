@@ -17,7 +17,10 @@ export default function Home({ setModalOpen }: {
   const [editingNoteContent, setEditingNoteContent] = useState<string>("");
   const [editingNoteId, setEditingNoteId] = useState<number | null>(null);
 
-  const openModal = () => setIsModalOpen(true);
+  const openModal = () => {
+    setModalOpen(true);
+    setIsModalOpen(true);
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
