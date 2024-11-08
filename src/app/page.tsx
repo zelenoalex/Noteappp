@@ -7,10 +7,9 @@ import NoteModal from "./NoteModal";
 
 import "flowbite";
 
-export default function Home({ setModalOpen }: {
-  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+export default function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [setModalOpen] = useState<boolean>(false);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -18,7 +17,6 @@ export default function Home({ setModalOpen }: {
   const [editingNoteId, setEditingNoteId] = useState<number | null>(null);
 
   const openModal = () => {
-    setModalOpen(true);
     setIsModalOpen(true);
   };
 
@@ -28,7 +26,7 @@ export default function Home({ setModalOpen }: {
     setEditingNoteContent("");
     setEditingNoteId(null);
   };
-
+  
   return (
     <main>
       <div className="container">
