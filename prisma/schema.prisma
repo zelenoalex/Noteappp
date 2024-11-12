@@ -1,0 +1,18 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://NoteAppDB_owner:qvOLxIJSCR74@ep-black-recipe-a5210i76.us-east-2.aws.neon.tech/NoteAppDB?sslmode=require"
+}
+model Note {
+  id    Int     @id @default(autoincrement())
+  text  String
+}
