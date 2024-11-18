@@ -3,29 +3,49 @@ import { useState, useEffect } from 'react';
 export default function NotesApp() {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchNotes() {
-      const response = await fetch('/api/notes');
-      const data = await response.json();
-      setNotes(data);
+      try {
+        const response = await fetch('/api/notes');
+        if (!response.ok) {
+          throw new Error('Failed to fetch notes');
+        }
+        const data = await response.json();
+        console.log('Fetched notes:', data);
+        setNotes(data);
+      } catch (err) {
+        console.error('Error fetching notes:', err);
+        setError(err.message);
+      }
     }
     fetchNotes();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('/api/notes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ content: newNote }),
-    });
-    
-    const addedNote = await response.json();
-    setNotes([addedNote, ...notes]);
-    setNewNote('');
+    try {
+      const response = await fetch('/api/notes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: newNote }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add note');
+      }
+
+      const addedNote = await response.json();
+      console.log('Added note:', addedNote);
+      setNotes([addedNote, ...notes]);
+      setNewNote('');
+    } catch (err) {
+      console.error('Error adding note:', err);
+      setError(err.message);
+    }
   };
 
   return (
@@ -33,6 +53,12 @@ export default function NotesApp() {
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
           <div className="max-w-md mx-auto">
+            {error && (
+              <div className="mb-4 p-4 text-red-700 bg-red-100 rounded">
+                Error: {error}
+              </div>
+            )}
+            
             <div className="divide-y divide-gray-200">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <textarea
